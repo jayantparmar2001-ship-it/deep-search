@@ -6,13 +6,12 @@ import com.deep_search.deep_search.entity.Service;
 import com.deep_search.deep_search.repository.ServiceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@org.springframework.stereotype.Service
 public class ServiceService {
 
     private static final Logger log = LoggerFactory.getLogger(ServiceService.class);
