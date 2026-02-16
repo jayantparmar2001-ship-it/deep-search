@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: deep-search-api
+    runtime: docker
+    dockerfilePath: Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+        value: jdbc:mysql://your-mysql-host:3306/deep_search_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+        value: root
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+        value: your-password
+      - key: SERVER_PORT
+        value: 8080
+    healthCheckPath: /
+
+databases:
+  - name: deep-search-db
+    databaseName: deep_search_db
+    user: deepsearch
+    plan: free
+
