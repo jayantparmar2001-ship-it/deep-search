@@ -7,14 +7,21 @@ services:
     plan: free
     envVars:
       - key: SPRING_DATASOURCE_URL
-        sync: false
-        value: jdbc:mysql://your-mysql-host:3306/deep_search_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+        fromDatabase:
+          name: deep-search-db
+          property: connectionString
       - key: SPRING_DATASOURCE_USERNAME
-        sync: false
-        value: root
+        fromDatabase:
+          name: deep-search-db
+          property: user
       - key: SPRING_DATASOURCE_PASSWORD
-        sync: false
-        value: your-password
+        fromDatabase:
+          name: deep-search-db
+          property: password
+      - key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+        value: org.postgresql.Driver
+      - key: SPRING_JPA_DATABASE_PLATFORM
+        value: org.hibernate.dialect.PostgreSQLDialect
       - key: SERVER_PORT
         value: 8080
     healthCheckPath: /
@@ -24,4 +31,5 @@ databases:
     databaseName: deep_search_db
     user: deepsearch
     plan: free
+    postgresMajorVersion: 15
 

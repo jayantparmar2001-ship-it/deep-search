@@ -96,21 +96,20 @@ Then in Render dashboard:
 
 ## Database Setup on Render:
 
-1. Create a **PostgreSQL** or **MySQL** database in Render
-2. Note the connection details
-3. Update environment variables with the correct database URL
+1. Create a **PostgreSQL** database in Render (recommended)
+2. The `render.yaml` file automatically configures the database connection
+3. If configuring manually, set these environment variables:
 
-For PostgreSQL (Render's default):
+For PostgreSQL (Render's default and recommended):
 ```
 SPRING_DATASOURCE_URL=jdbc:postgresql://your-db-host:5432/deep_search_db?sslmode=require
+SPRING_DATASOURCE_USERNAME=your-username
+SPRING_DATASOURCE_PASSWORD=your-password
 SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
 ```
 
-For MySQL:
-```
-SPRING_DATASOURCE_URL=jdbc:mysql://your-db-host:3306/deep_search_db?useSSL=true&serverTimezone=UTC
-SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-```
+**Note**: The `render.yaml` file uses Render's database connection string feature, which automatically injects the correct connection details.
 
 ## Quick Checklist:
 
