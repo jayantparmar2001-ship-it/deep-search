@@ -14,7 +14,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id")
+    private Integer userId;
 
     @Column(nullable = false)
     private String name;
@@ -24,6 +25,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(length = 20)
+    private String phone;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -38,14 +42,22 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public User(String name, String email, String password, String phone) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.createdAt = LocalDateTime.now();
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    // Getters and Setters
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -78,6 +90,14 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
 

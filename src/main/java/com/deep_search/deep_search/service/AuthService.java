@@ -35,7 +35,8 @@ public class AuthService {
         User user = new User(
                 request.getName(),
                 request.getEmail(),
-                request.getPassword() // In production, hash this with BCrypt!
+                request.getPassword(), // In production, hash this with BCrypt!
+                request.getPhone()
         );
         userRepository.save(user);
 
