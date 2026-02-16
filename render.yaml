@@ -6,10 +6,11 @@ services:
     dockerContext: .
     plan: free
     envVars:
-      - key: SPRING_DATASOURCE_URL
-        fromDatabase:
-          name: deep-search-db
-          property: connectionString
+      # Construct JDBC URL from database properties
+      # Note: Render doesn't support string interpolation in render.yaml
+      # You need to manually set SPRING_DATASOURCE_URL in Render dashboard
+      # Format: jdbc:postgresql://[HOST]:5432/deep_search_db
+      # Get HOST from Database → Connect → Internal Database URL
       - key: SPRING_DATASOURCE_USERNAME
         fromDatabase:
           name: deep-search-db
