@@ -2,15 +2,15 @@ package com.deep_search.deep_search.controller;
 
 import com.deep_search.deep_search.dto.AuthResponse;
 import com.deep_search.deep_search.dto.LoginRequest;
+import com.deep_search.deep_search.dto.LogoutRequest;
 import com.deep_search.deep_search.dto.RegisterRequest;
 import com.deep_search.deep_search.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -47,6 +47,27 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(409).body(response);
+        }
+    }
+
+    /**
+     * POST /api/auth/logout
+     * Logout a user by invalidating their session
+     * Body: { "token": "..." }
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, Object>> logout(@Valid @RequestBody LogoutRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        boolean success = authService.logout(request.getToken());
+        
+        if (success) {
+            response.put("success", true);
+            response.put("message", "Logout successful");
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("success", false);
+            response.put("message", "Invalid or expired session");
+            return ResponseEntity.status(401).body(response);
         }
     }
 

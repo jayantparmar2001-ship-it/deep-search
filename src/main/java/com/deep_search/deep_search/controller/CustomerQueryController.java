@@ -2,6 +2,7 @@ package com.deep_search.deep_search.controller;
 
 import com.deep_search.deep_search.dto.CustomerQueryRequest;
 import com.deep_search.deep_search.dto.CustomerQueryResponse;
+import com.deep_search.deep_search.dto.UserQueriesResponse;
 import com.deep_search.deep_search.service.CustomerQueryService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,21 @@ public class CustomerQueryController {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(500).body(response);
+        }
+    }
+
+    /**
+     * GET /api/queries/user/{email}
+     * Get all queries/requests for a specific user
+     * Returns list of queries ordered by creation date (newest first)
+     */
+    @GetMapping("/user/{email}")
+    public ResponseEntity<UserQueriesResponse> getUserQueries(@PathVariable String email) {
+        UserQueriesResponse response = customerQueryService.getUserQueries(email);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(404).body(response);
         }
     }
 }
