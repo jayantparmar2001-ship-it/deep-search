@@ -12,3 +12,4 @@ public interface SubscriptionPlanRepository extends JpaRepository<SubscriptionPl
     List<SubscriptionPlan> findByIsActiveTrue();
 }
 
+

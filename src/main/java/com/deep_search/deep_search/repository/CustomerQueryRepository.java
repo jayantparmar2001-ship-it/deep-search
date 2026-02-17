@@ -14,3 +14,4 @@ public interface CustomerQueryRepository extends JpaRepository<CustomerQuery, Lo
     List<CustomerQuery> findByStatusOrderByCreatedAtDesc(String status);
 }
 
+

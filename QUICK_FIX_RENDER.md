@@ -103,3 +103,4 @@ After redeploy, check logs for:
 4. **Database name matches** - should be `deep_search_db`
 5. **Use Internal URL host** - not external, for better performance
 
+

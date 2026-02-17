@@ -238,3 +238,4 @@ psql -U postgres -d deep_search_db -f database/deep_search_db_setup.sql
 
 All CRUD operations are now fully functional! 🎉
 
+
