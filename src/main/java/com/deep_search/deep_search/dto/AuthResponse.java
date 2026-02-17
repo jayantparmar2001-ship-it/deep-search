@@ -7,19 +7,21 @@ public class AuthResponse {
     private String token;
     private String name;
     private String email;
+    private String role;
 
     public AuthResponse() {
     }
 
     // Convenience factory methods
 
-    public static AuthResponse success(String message, String token, String name, String email) {
+    public static AuthResponse success(String message, String token, String name, String email, String role) {
         AuthResponse response = new AuthResponse();
         response.success = true;
         response.message = message;
         response.token = token;
         response.name = name;
         response.email = email;
+        response.role = role;
         return response;
     }
 
@@ -70,6 +72,14 @@ public class AuthResponse {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 

@@ -21,6 +21,8 @@ public class AuthService {
     private static final Logger log = LoggerFactory.getLogger(AuthService.class);
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
+    private static final String ROLE_CUSTOMER = "CUSTOMER";
+    private static final String ROLE_LABOUR = "LABOUR";
 
     public AuthService(UserRepository userRepository, SessionRepository sessionRepository) {
         this.userRepository = userRepository;
@@ -37,12 +39,18 @@ public class AuthService {
             return AuthResponse.error("Email already registered");
         }
 
+        String requestedRole = request.getRole() == null ? ROLE_CUSTOMER : request.getRole().trim().toUpperCase();
+        if (!ROLE_CUSTOMER.equals(requestedRole) && !ROLE_LABOUR.equals(requestedRole)) {
+            return AuthResponse.error("Invalid role. Allowed values: CUSTOMER, LABOUR");
+        }
+
         // Create and save user
         User user = new User(
                 request.getName(),
                 request.getEmail(),
                 request.getPassword(), // In production, hash this with BCrypt!
-                request.getPhone()
+                request.getPhone(),
+                requestedRole
         );
         userRepository.save(user);
 
@@ -59,7 +67,8 @@ public class AuthService {
                 "Registration successful",
                 token,
                 user.getName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole()
         );
     }
 
@@ -101,7 +110,8 @@ public class AuthService {
                 "Login successful",
                 token,
                 user.getName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole()
         );
     }
 

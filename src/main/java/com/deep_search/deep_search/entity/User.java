@@ -29,6 +29,9 @@ public class User {
     @Column(length = 20)
     private String phone;
 
+    @Column(nullable = false, length = 20)
+    private String role = "CUSTOMER";
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -39,6 +42,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = "CUSTOMER";
         this.createdAt = LocalDateTime.now();
     }
 
@@ -47,6 +51,16 @@ public class User {
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.role = "CUSTOMER";
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public User(String name, String email, String password, String phone, String role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.role = role;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -98,6 +112,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 
