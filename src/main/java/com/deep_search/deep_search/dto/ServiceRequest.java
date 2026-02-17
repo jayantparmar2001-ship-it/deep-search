@@ -1,9 +1,9 @@
 package com.deep_search.deep_search.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.Valid;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class ServiceRequest {
 
@@ -12,11 +12,12 @@ public class ServiceRequest {
 
     private String description;
 
-    @NotNull(message = "Price is required")
-    @Positive(message = "Price must be positive")
     private BigDecimal price;
 
     private String duration;
+
+    @Valid
+    private List<ServiceTypeRequest> serviceTypes;
 
     public ServiceRequest() {
     }
@@ -59,6 +60,14 @@ public class ServiceRequest {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public List<ServiceTypeRequest> getServiceTypes() {
+        return serviceTypes;
+    }
+
+    public void setServiceTypes(List<ServiceTypeRequest> serviceTypes) {
+        this.serviceTypes = serviceTypes;
     }
 }
 

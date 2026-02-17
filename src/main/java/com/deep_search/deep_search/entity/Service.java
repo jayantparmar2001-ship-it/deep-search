@@ -2,6 +2,8 @@ package com.deep_search.deep_search.entity;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "services")
@@ -18,11 +20,14 @@ public class Service {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "price", nullable = false, precision = 10, scale = 2)
+    @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
     @Column(name = "duration", length = 50)
     private String duration;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServiceType> serviceTypes = new ArrayList<>();
 
     public Service() {
     }
@@ -73,6 +78,14 @@ public class Service {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public List<ServiceType> getServiceTypes() {
+        return serviceTypes;
+    }
+
+    public void setServiceTypes(List<ServiceType> serviceTypes) {
+        this.serviceTypes = serviceTypes;
     }
 }
 

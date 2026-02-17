@@ -2,6 +2,7 @@ package com.deep_search.deep_search.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class RegisterRequest {
@@ -19,6 +20,10 @@ public class RegisterRequest {
 
     private String phone;
 
+    @Pattern(
+            regexp = "^(?i)(CUSTOMER|LABOUR)$",
+            message = "Role must be CUSTOMER or LABOUR"
+    )
     private String role;
 
     public RegisterRequest() {

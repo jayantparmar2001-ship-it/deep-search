@@ -22,6 +22,7 @@ public class LabourServiceMappingService {
 
     private static final Logger log = LoggerFactory.getLogger(LabourServiceMappingService.class);
     private static final String ROLE_LABOUR = "LABOUR";
+    private static final String ROLE_CUSTOMER = "CUSTOMER";
 
     private final LabourServiceMappingRepository mappingRepository;
     private final ServiceRepository serviceRepository;
@@ -158,6 +159,11 @@ public class LabourServiceMappingService {
         try {
             if (!authService.isValidSession(token)) {
                 return LabourMappedServicesResponse.error("Session expired or invalid. Please login again.");
+            }
+
+            Optional<String> optionalRole = authService.getUserRoleFromToken(token);
+            if (optionalRole.isEmpty() || !ROLE_CUSTOMER.equalsIgnoreCase(optionalRole.get())) {
+                return LabourMappedServicesResponse.error("Only customer users can access available services.");
             }
 
             String normalizedSearch = search == null ? "" : search.trim().toLowerCase();

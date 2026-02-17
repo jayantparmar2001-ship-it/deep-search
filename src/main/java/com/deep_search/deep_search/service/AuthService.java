@@ -88,6 +88,12 @@ public class AuthService {
 
         User user = optionalUser.get();
 
+        String normalizedRole = user.getRole() == null ? "" : user.getRole().trim().toUpperCase();
+        if (!ROLE_CUSTOMER.equals(normalizedRole) && !ROLE_LABOUR.equals(normalizedRole)) {
+            log.warn("Login failed: Unsupported role '{}' for email: {}", user.getRole(), request.getEmail());
+            return AuthResponse.error("Invalid user type. Please contact support.");
+        }
+
         // Check password (plain text comparison — in production, use BCrypt!)
         if (!user.getPassword().equals(request.getPassword())) {
             log.warn("Login failed: Invalid password for email: {}", request.getEmail());
@@ -174,6 +180,17 @@ public class AuthService {
     public Optional<Integer> getUserIdFromToken(String token) {
         Optional<Session> optionalSession = sessionRepository.findByTokenAndIsActiveTrue(token);
         return optionalSession.map(Session::getUserId);
+    }
+
+    /**
+     * Get user role from session token.
+     */
+    public Optional<String> getUserRoleFromToken(String token) {
+        Optional<Integer> userId = getUserIdFromToken(token);
+        if (userId.isEmpty()) {
+            return Optional.empty();
+        }
+        return userRepository.findById(userId.get()).map(User::getRole);
     }
 }
 

@@ -21,6 +21,7 @@ import java.util.Optional;
 public class LabourRequestService {
 
     private static final Logger log = LoggerFactory.getLogger(LabourRequestService.class);
+    private static final String ROLE_CUSTOMER = "CUSTOMER";
 
     private final LabourRequestRepository labourRequestRepository;
     private final UserRepository userRepository;
@@ -63,6 +64,9 @@ public class LabourRequestService {
             }
 
             User user = optionalUser.get();
+            if (!ROLE_CUSTOMER.equalsIgnoreCase(user.getRole())) {
+                return LabourRequestResponse.error("Only customer users can submit labour requests.");
+            }
             Service selectedService = optionalService.get();
 
             LabourRequest labourRequest = new LabourRequest();
@@ -107,6 +111,14 @@ public class LabourRequestService {
             Optional<Integer> optionalUserId = authService.getUserIdFromToken(token);
             if (optionalUserId.isEmpty()) {
                 return UserLabourRequestsResponse.error("Invalid session. User not found.");
+            }
+
+            Optional<User> optionalUser = userRepository.findById(optionalUserId.get());
+            if (optionalUser.isEmpty()) {
+                return UserLabourRequestsResponse.error("User not found.");
+            }
+            if (!ROLE_CUSTOMER.equalsIgnoreCase(optionalUser.get().getRole())) {
+                return UserLabourRequestsResponse.error("Only customer users can access labour requests.");
             }
 
             List<LabourRequest> requests = labourRequestRepository
