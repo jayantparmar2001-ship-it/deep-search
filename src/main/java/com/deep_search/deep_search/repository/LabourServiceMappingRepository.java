@@ -11,6 +11,8 @@ public interface LabourServiceMappingRepository extends JpaRepository<LabourServ
 
     List<LabourServiceMapping> findByLabourUserIdAndIsActiveTrueOrderByCreatedAtDesc(Integer labourUserId);
 
+    List<LabourServiceMapping> findByIsActiveTrueOrderByCreatedAtDesc();
+
     boolean existsByLabourUserIdAndServiceIdAndIsActiveTrue(Integer labourUserId, Integer serviceId);
 }
 

@@ -51,6 +51,22 @@ public class LabourServiceMappingController {
         }
         return ResponseEntity.status(401).body(response);
     }
+
+    /**
+     * GET /api/labour-services/available?token=...&search=...
+     * Returns all active labour mapped services for customer browsing with optional search.
+     */
+    @GetMapping("/available")
+    public ResponseEntity<LabourMappedServicesResponse> getAvailableMappedServices(
+            @RequestParam String token,
+            @RequestParam(required = false) String search
+    ) {
+        LabourMappedServicesResponse response = mappingService.getAvailableMappedServices(token, search);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.status(401).body(response);
+    }
 }
 
 

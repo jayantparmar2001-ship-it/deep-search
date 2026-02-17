@@ -55,6 +55,9 @@ public class LabourMappedServicesResponse {
 
     public static class MappedServiceItem {
         private Long mappingId;
+        private Integer labourUserId;
+        private String labourName;
+        private String labourEmail;
         private Integer serviceId;
         private String serviceName;
         private String description;
@@ -79,6 +82,30 @@ public class LabourMappedServicesResponse {
 
         public void setServiceId(Integer serviceId) {
             this.serviceId = serviceId;
+        }
+
+        public Integer getLabourUserId() {
+            return labourUserId;
+        }
+
+        public void setLabourUserId(Integer labourUserId) {
+            this.labourUserId = labourUserId;
+        }
+
+        public String getLabourName() {
+            return labourName;
+        }
+
+        public void setLabourName(String labourName) {
+            this.labourName = labourName;
+        }
+
+        public String getLabourEmail() {
+            return labourEmail;
+        }
+
+        public void setLabourEmail(String labourEmail) {
+            this.labourEmail = labourEmail;
         }
 
         public String getServiceName() {

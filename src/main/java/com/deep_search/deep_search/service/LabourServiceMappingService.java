@@ -135,6 +135,9 @@ public class LabourServiceMappingService {
                 LabourMappedServicesResponse.MappedServiceItem item =
                         new LabourMappedServicesResponse.MappedServiceItem();
                 item.setMappingId(mapping.getMappingId());
+                item.setLabourUserId(mapping.getLabourUserId());
+                item.setLabourName(optionalUser.get().getName());
+                item.setLabourEmail(optionalUser.get().getEmail());
                 item.setServiceId(service.getServiceId());
                 item.setServiceName(service.getServiceName());
                 item.setDescription(service.getDescription());
@@ -148,6 +151,60 @@ public class LabourServiceMappingService {
         } catch (Exception e) {
             log.error("Failed to fetch mapped services: {}", e.getMessage(), e);
             return LabourMappedServicesResponse.error("Failed to fetch mapped services: " + e.getMessage());
+        }
+    }
+
+    public LabourMappedServicesResponse getAvailableMappedServices(String token, String search) {
+        try {
+            if (!authService.isValidSession(token)) {
+                return LabourMappedServicesResponse.error("Session expired or invalid. Please login again.");
+            }
+
+            String normalizedSearch = search == null ? "" : search.trim().toLowerCase();
+            List<LabourServiceMapping> mappings = mappingRepository.findByIsActiveTrueOrderByCreatedAtDesc();
+            List<LabourMappedServicesResponse.MappedServiceItem> items = new ArrayList<>();
+
+            for (LabourServiceMapping mapping : mappings) {
+                Optional<Service> optionalService = serviceRepository.findById(mapping.getServiceId());
+                Optional<User> optionalLabour = userRepository.findById(mapping.getLabourUserId());
+                if (optionalService.isEmpty() || optionalLabour.isEmpty()) {
+                    continue;
+                }
+
+                Service service = optionalService.get();
+                User labour = optionalLabour.get();
+                if (!ROLE_LABOUR.equalsIgnoreCase(labour.getRole())) {
+                    continue;
+                }
+
+                boolean serviceMatches = service.getServiceName().toLowerCase().contains(normalizedSearch)
+                        || (service.getDescription() != null
+                        && service.getDescription().toLowerCase().contains(normalizedSearch));
+                boolean labourMatches = (labour.getName() != null && labour.getName().toLowerCase().contains(normalizedSearch))
+                        || (labour.getEmail() != null && labour.getEmail().toLowerCase().contains(normalizedSearch));
+
+                if (!normalizedSearch.isBlank() && !serviceMatches && !labourMatches) {
+                    continue;
+                }
+
+                LabourMappedServicesResponse.MappedServiceItem item = new LabourMappedServicesResponse.MappedServiceItem();
+                item.setMappingId(mapping.getMappingId());
+                item.setLabourUserId(mapping.getLabourUserId());
+                item.setLabourName(labour.getName());
+                item.setLabourEmail(labour.getEmail());
+                item.setServiceId(service.getServiceId());
+                item.setServiceName(service.getServiceName());
+                item.setDescription(service.getDescription());
+                item.setExperienceYears(mapping.getExperienceYears());
+                item.setNotes(mapping.getNotes());
+                item.setCreatedAt(mapping.getCreatedAt());
+                items.add(item);
+            }
+
+            return LabourMappedServicesResponse.success("Available labour services fetched successfully", items);
+        } catch (Exception e) {
+            log.error("Failed to fetch available labour services: {}", e.getMessage(), e);
+            return LabourMappedServicesResponse.error("Failed to fetch available labour services: " + e.getMessage());
         }
     }
 }
