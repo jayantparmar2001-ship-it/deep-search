@@ -38,6 +38,8 @@ public class ServiceService {
                 request.getPrice(),
                 request.getDuration()
         );
+        service.setMainImageUrl(request.getMainImageUrl());
+        service.setGalleryPhotoUrls(serializePhotoUrls(request.getGalleryPhotoUrls()));
         applyServiceTypes(service, request.getServiceTypes());
         Service saved = serviceRepository.save(service);
         return toResponse(saved);
@@ -79,6 +81,8 @@ public class ServiceService {
         service.setDescription(request.getDescription());
         service.setPrice(request.getPrice());
         service.setDuration(request.getDuration());
+        service.setMainImageUrl(request.getMainImageUrl());
+        service.setGalleryPhotoUrls(serializePhotoUrls(request.getGalleryPhotoUrls()));
         applyServiceTypes(service, request.getServiceTypes());
 
         Service updated = serviceRepository.save(service);
@@ -102,7 +106,9 @@ public class ServiceService {
                 service.getDescription(),
                 service.getPrice(),
                 service.getDuration(),
-                toServiceTypeResponses(service.getServiceTypes())
+                toServiceTypeResponses(service.getServiceTypes()),
+                service.getMainImageUrl(),
+                deserializePhotoUrls(service.getGalleryPhotoUrls())
         );
     }
 

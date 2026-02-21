@@ -26,6 +26,11 @@ public class RegisterRequest {
     )
     private String role;
 
+    /**
+     * Optional profile image URL for the user.
+     */
+    private String profileImageUrl;
+
     public RegisterRequest() {
     }
 
@@ -88,6 +93,14 @@ public class RegisterRequest {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
 

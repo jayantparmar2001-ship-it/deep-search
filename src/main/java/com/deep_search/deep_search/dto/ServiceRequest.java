@@ -19,6 +19,16 @@ public class ServiceRequest {
     @Valid
     private List<ServiceTypeRequest> serviceTypes;
 
+    /**
+     * Optional main image URL representing the service (e.g., cover image).
+     */
+    private String mainImageUrl;
+
+    /**
+     * Optional additional gallery images for the service.
+     */
+    private List<String> galleryPhotoUrls;
+
     public ServiceRequest() {
     }
 
@@ -68,6 +78,22 @@ public class ServiceRequest {
 
     public void setServiceTypes(List<ServiceTypeRequest> serviceTypes) {
         this.serviceTypes = serviceTypes;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
+    }
+
+    public List<String> getGalleryPhotoUrls() {
+        return galleryPhotoUrls;
+    }
+
+    public void setGalleryPhotoUrls(List<String> galleryPhotoUrls) {
+        this.galleryPhotoUrls = galleryPhotoUrls;
     }
 }
 

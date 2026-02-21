@@ -52,6 +52,7 @@ public class AuthService {
                 request.getPhone(),
                 requestedRole
         );
+        user.setProfileImageUrl(request.getProfileImageUrl());
         userRepository.save(user);
 
         // Generate a unique token
@@ -63,13 +64,15 @@ public class AuthService {
 
         log.info("Registration successful for user: {} (ID: {})", user.getEmail(), user.getUserId());
 
-        return AuthResponse.success(
+        AuthResponse response = AuthResponse.success(
                 "Registration successful",
                 token,
                 user.getName(),
                 user.getEmail(),
                 user.getRole()
         );
+        response.setProfileImageUrl(user.getProfileImageUrl());
+        return response;
     }
 
     /**
@@ -112,13 +115,15 @@ public class AuthService {
 
         log.info("Login successful for user: {} (ID: {})", user.getEmail(), user.getUserId());
 
-        return AuthResponse.success(
+        AuthResponse response = AuthResponse.success(
                 "Login successful",
                 token,
                 user.getName(),
                 user.getEmail(),
                 user.getRole()
         );
+        response.setProfileImageUrl(user.getProfileImageUrl());
+        return response;
     }
 
     /**

@@ -8,6 +8,7 @@ public class AuthResponse {
     private String name;
     private String email;
     private String role;
+    private String profileImageUrl;
 
     public AuthResponse() {
     }
@@ -80,6 +81,14 @@ public class AuthResponse {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }
 

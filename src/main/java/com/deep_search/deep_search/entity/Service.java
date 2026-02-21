@@ -26,6 +26,12 @@ public class Service {
     @Column(name = "duration", length = 50)
     private String duration;
 
+    @Column(name = "main_image_url", length = 500)
+    private String mainImageUrl;
+
+    @Column(name = "gallery_photo_urls", columnDefinition = "TEXT")
+    private String galleryPhotoUrls;
+
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ServiceType> serviceTypes = new ArrayList<>();
 
@@ -78,6 +84,22 @@ public class Service {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
+    }
+
+    public String getGalleryPhotoUrls() {
+        return galleryPhotoUrls;
+    }
+
+    public void setGalleryPhotoUrls(String galleryPhotoUrls) {
+        this.galleryPhotoUrls = galleryPhotoUrls;
     }
 
     public List<ServiceType> getServiceTypes() {

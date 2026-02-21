@@ -11,17 +11,28 @@ public class ServiceResponse {
     private BigDecimal price;
     private String duration;
     private List<ServiceTypeResponse> serviceTypes;
+    private String mainImageUrl;
+    private List<String> galleryPhotoUrls;
 
     public ServiceResponse() {
     }
 
-    public ServiceResponse(Integer serviceId, String serviceName, String description, BigDecimal price, String duration, List<ServiceTypeResponse> serviceTypes) {
+    public ServiceResponse(Integer serviceId,
+                           String serviceName,
+                           String description,
+                           BigDecimal price,
+                           String duration,
+                           List<ServiceTypeResponse> serviceTypes,
+                           String mainImageUrl,
+                           List<String> galleryPhotoUrls) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.description = description;
         this.price = price;
         this.duration = duration;
         this.serviceTypes = serviceTypes;
+        this.mainImageUrl = mainImageUrl;
+        this.galleryPhotoUrls = galleryPhotoUrls;
     }
 
     // Getters and Setters
@@ -71,6 +82,22 @@ public class ServiceResponse {
 
     public void setServiceTypes(List<ServiceTypeResponse> serviceTypes) {
         this.serviceTypes = serviceTypes;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
+    }
+
+    public List<String> getGalleryPhotoUrls() {
+        return galleryPhotoUrls;
+    }
+
+    public void setGalleryPhotoUrls(List<String> galleryPhotoUrls) {
+        this.galleryPhotoUrls = galleryPhotoUrls;
     }
 }
 
